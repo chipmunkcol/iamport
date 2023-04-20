@@ -1,0 +1,49 @@
+html, body, div, span, object, iframe, figure, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, code, em, img, small, strike, strong, sub, sup, tt, b, u, i, ol, ul, li, fieldset, form, label, table, caption, tbody, tfoot, thead, tr, th, td, main, canvas, embed, footer, header, nav, section, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  text-size-adjust: none;
+}
+
+.header {
+  display: flex;
+  height: 60px;
+  border-bottom: 1px solid gainsboro;
+  justify-content: space-between;
+  padding: 0 15px 0 15px;
+  align-items: center;
+}
+.flex-box {
+  display: flex;
+  height: calc(100% - 60px);
+}
+
+.leftPanel {
+  width: 80px;
+  border-right: 1px solid  gainsboro;
+}
+.leftPanel2 {
+  width: 350px;
+  border-right: 1px solid  gainsboro;
+}
+
+.payment-btn {
+  width: 100px;
+  height: 40px;
+  border: none;
+  border-radius: 5px;
+  background-color: brown;
+  color: white;
+}
+
+.profile img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  cursor: pointer;
+}
