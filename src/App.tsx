@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
 import './style/main.css';
+import { RequestPayParams, RequestPayResponse } from 'iamport-typings';
+import process from 'process';
 
 function App() {
 
@@ -8,10 +10,9 @@ function App() {
 
   const [file, setFile] = useState('');
 
-  const onChangeFile = (e:any) => {
-    console.log(e.target.files[0]);
+  const onChangeFile = (e: any) => {
     if(e.target.files[0]) {
-      setFile(e.target.files[0]) // file은 file대로 담고 profileImg는 이미지대로 담는다.
+      setFile(e.target.files[0]) // file은 file대로 담아서 api call 할 때 같이 담아주자.
     }
 
     const reader = new FileReader();
@@ -22,6 +23,28 @@ function App() {
     reader.readAsDataURL(e.target.files[0]);
   }
   
+  const handlePaymentRequest = () => {
+    const { IMP } = window;
+    IMP?.init(process.env.REACT_APP_IAMPORT_APIKEY);
+
+    const paymentData: RequestPayParams = {
+      pg: 'html5_inicis', // 결제사 코드
+      pay_method: 'card', // 결제 수단
+      merchant_uid: 'merchant_' + new Date().getTime(), // 주문번호
+      amount: 1000, // 결제 금액
+      name: '아이템명', // 상품명
+      buyer_name: '구매자 이름', // 구매자 이름
+      buyer_tel: '구매자 전화번호', // 구매자 전화번호
+      buyer_email: '구매자 이메일', // 구매자 이메일
+    }
+
+    IMP?.request_pay(paymentData, paymentSuccess)
+  }
+
+  const paymentSuccess = (res: RequestPayResponse) => {
+    const { imp_uid, merchant_uid } = res;
+    console.log(imp_uid, merchant_uid);
+  }
 
   return (
     <div style={{ width:'100vw', height:'100vh' }}>
@@ -42,19 +65,31 @@ function App() {
           leftpanel2
         </div>
       
-      {/* 결제 컴포넌트? */}
-        {/* <button className='payment-btn'>결제하기</button> */}
+      
 
         <div className="profile">
+          <div className='title'>프로필</div>
           <img src={ profileImg } alt='profileImg' onClick={ () => inputRef.current.click() }/>
           <input 
           type="file"
           ref={ inputRef }
           style={{ display:'none' }}
-          onChange={onChangeFile}
+          onChange={ onChangeFile }
           />
           
           <div>name</div>
+          <div>id</div>
+        </div>
+
+        <div className='payment'>
+          <img src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/GoldenGateBridge-001.jpg/800px-GoldenGateBridge-001.jpg' alt='bridge'/>
+          <img src='https://img.staticmb.com/mbcontent//images/uploads/2021/9/what-are-the-different-types-of-land-use-zones.jpg' alt='land'/>
+          <img src='https://www.kfpa.or.kr/images/sub/check1_img01.jpg' alt='safety always'/>
+          
+          <div className='payment-btn'>
+            <button onClick={handlePaymentRequest}>결제하기</button>
+          </div>
+
         </div>
       </div>
     </div>
