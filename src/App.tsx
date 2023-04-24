@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import './style/main.css';
 import { RequestPayParams, RequestPayResponse } from 'iamport-typings';
-import process from 'process';
 
 function App() {
 
@@ -22,20 +21,25 @@ function App() {
     }
     reader.readAsDataURL(e.target.files[0]);
   }
-  
+
+  // 아임포트 결제하기
+  const { IMP } = window;
+  IMP?.init(process.env.REACT_APP_IAMPORT_APIKEY);
+
   const handlePaymentRequest = () => {
-    const { IMP } = window;
-    IMP?.init(process.env.REACT_APP_IAMPORT_APIKEY);
 
     const paymentData: RequestPayParams = {
-      pg: 'html5_inicis', // 결제사 코드
-      pay_method: 'card', // 결제 수단
-      merchant_uid: 'merchant_' + new Date().getTime(), // 주문번호
-      amount: 1000, // 결제 금액
-      name: '아이템명', // 상품명
-      buyer_name: '구매자 이름', // 구매자 이름
-      buyer_tel: '구매자 전화번호', // 구매자 전화번호
-      buyer_email: '구매자 이메일', // 구매자 이메일
+    pg : 'mobilians.test',
+    pay_method : 'phone',
+    merchant_uid: "order_no_0001", //상점에서 생성한 고유 주문번호
+    name : '주문명:결제테스트',
+    amount : 1004,
+    buyer_email : 'test@portone.io',
+    buyer_name : '구매자이름',
+    buyer_tel : '010-1234-5678',  //필수 
+    buyer_addr : '서울특별시 강남구 삼성동',
+    buyer_postcode : '123-456',
+    m_redirect_url : '{모바일에서 결제 완료 후 리디렉션 될 URL}'
     }
 
     IMP?.request_pay(paymentData, paymentSuccess)

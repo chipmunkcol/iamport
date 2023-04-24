@@ -20,8 +20,9 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "types": [
-      "iamport-typings"
-    ]
+      "iamport-typings",
+      "node"
+    ],
   },
   "include": [
     "src"
